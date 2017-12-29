@@ -18,7 +18,16 @@ return [
         'domain' => env('MAILGUN_DOMAIN'),
         'secret' => env('MAILGUN_SECRET'),
     ],
-
+    'facebook' => [
+        'client_id' => env('FACEBOOK_APP_ID'),
+        'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
+        'redirect' => env('FACEBOOK_CALLBACK_URL')
+    ],
+    'twitter' => [
+        'client_id'     => env('TWITTER_APP_ID'),
+        'client_secret' => env('TWITTER_CLIENT_SECRET'),
+        'redirect'      => env('TWITTER_CALLBACK_URL')
+    ],
     'ses' => [
         'key' => env('SES_KEY'),
         'secret' => env('SES_SECRET'),
