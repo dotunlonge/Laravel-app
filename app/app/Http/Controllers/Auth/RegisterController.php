@@ -6,6 +6,11 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+
+use Illuminate\Auth\Events\Registered;
+use App\Jobs\SendVerificationEmail;
+use Mail;
 
 class RegisterController extends Controller
 {
@@ -66,6 +71,49 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'email_token' => str_random(10)
         ]);
     }
+
+    /* Handle a registration request for the application.
+    *
+    * @param \Illuminate\Http\Request $request
+    * @return \Illuminate\Http\Response
+    */
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+        $data = $this->create($request->all());
+        event(new Registered($user = $data));
+        dispatch(new SendVerificationEmail($user, $data->toArray()));
+        
+    //    $input = $request->all();
+    //    $data = $this->create($input)->toArray();
+    //     $user = User::find($data['id']);
+    //     $user->email_token = $data['email_token'];
+    //     $user->save();
+
+        // Mail::send('emails.email', $data, function($message) use($data){
+        //     $message->to($data['email']);
+        //     $message->subject('Registration Confirmation');
+        // });
+
+        return view('verification');   
+    }
+
+    /**
+    * Handle a registration request for the application.
+    *
+    * @param $token
+    * @return \Illuminate\Http\Response
+    */
+    public function verify($token)
+    {
+        $user = User::where('email_token',$token)->first();
+        $user->verified = 1;
+        if($user->save()){
+        return view('emails.emailconfirm',['user'=>$user]);
+    }
+    }
+
 }
