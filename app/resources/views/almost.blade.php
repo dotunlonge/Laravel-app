@@ -4,10 +4,9 @@
 <div class="row">
 <div class="col-md-8 col-md-offset-2">
 <div class="panel panel-default">
-<div class="panel-heading">Registration</div>
+<div class="panel-heading">Almost Done.</div>
 <div class="panel-body">
-You have successfully registered. An email has been sent to you for verification.
-
+Please check your email for an activation link.
 </div>
 </div>
 </div>

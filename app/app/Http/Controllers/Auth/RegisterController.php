@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -10,7 +11,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Auth\Events\Registered;
 use App\Jobs\SendVerificationEmail;
-use Mail;
+
 
 class RegisterController extends Controller
 {
@@ -78,7 +79,7 @@ class RegisterController extends Controller
     /* Handle a registration request for the application.
     *
     * @param \Illuminate\Http\Request $request
-    * @return \Illuminate\Http\Response
+    * @return view
     */
     public function register(Request $request)
     {
@@ -86,26 +87,14 @@ class RegisterController extends Controller
         $data = $this->create($request->all());
         event(new Registered($user = $data));
         dispatch(new SendVerificationEmail($user, $data->toArray()));
-        
-    //    $input = $request->all();
-    //    $data = $this->create($input)->toArray();
-    //     $user = User::find($data['id']);
-    //     $user->email_token = $data['email_token'];
-    //     $user->save();
-
-        // Mail::send('emails.email', $data, function($message) use($data){
-        //     $message->to($data['email']);
-        //     $message->subject('Registration Confirmation');
-        // });
-
         return view('verification');   
     }
 
     /**
-    * Handle a registration request for the application.
+    *  checks that tokens match, to verify the user for future logins.
     *
     * @param $token
-    * @return \Illuminate\Http\Response
+    * @return view
     */
     public function verify($token)
     {

@@ -23,6 +23,10 @@ return [
         'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
         'redirect' => env('FACEBOOK_CALLBACK_URL')
     ],
+    'pluralsms' => [
+        'username' => env('PLURALSMS_USERNAME'),
+        'password' => env('PLURALSMS_PASSWORD')
+    ],
     'twitter' => [
         'client_id'     => env('TWITTER_APP_ID'),
         'client_secret' => env('TWITTER_CLIENT_SECRET'),
