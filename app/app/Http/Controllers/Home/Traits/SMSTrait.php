@@ -9,6 +9,12 @@ trait SMSTrait
     private $client;
     private $res;
 
+ /**
+  * sends POST request to pluralsms api.
+  *
+  * @param string $data An Array With form data
+  * @return void
+  */
     public function send($data){
         $this->client = new Client();
     
