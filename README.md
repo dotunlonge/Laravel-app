@@ -29,7 +29,6 @@ Also configured to have role based authentication.
 - Facebook App Credentials
 
   ​
-
 ## Installation
 
 - [ ] Git Clone. 
@@ -70,13 +69,47 @@ Also configured to have role based authentication.
 - [ ] run the code below in the terminal to create the database schema and populate it with seed data.
 
 ```
- php artisan migrate:fresh —seed
+ php artisan migrate:fresh --seed
 ```
-
-run the below code to start the app on http://localhost:8000/
-
+run the below code to start the app on ***http://localhost:8000/***
 ```
 php artisan serve 
+```
+
+- [ ] if error is encountered while trying to use social media login, go to
+
+      ```
+      projectname/app/vendor/laravel/socialite/src/
+      ```
+
+      and for both folders, One and Two...
+
+      ***<u>Replace set with put</u>***, in the AbstractProvider.php file for the redirect method i.e.
+
+```
+   public function redirect()
+    {
+        $state = null;
+
+        if ($this->usesState()) {
+            //change here 
+            $this->request->session()->set('state', $state = $this->getState());
+        }
+
+        return new RedirectResponse($this->getAuthUrl($state));
+    }
+
+   public function redirect()
+    {
+        $state = null;
+
+        if ($this->usesState()) {
+            //new statement
+            $this->request->session()->put('state', $state = $this->getState());
+        }
+
+        return new RedirectResponse($this->getAuthUrl($state));
+    }
 ```
 
 
@@ -89,19 +122,16 @@ To test the role based authentication setup, start up the server and login with 
 
 ```
 email : api_user@example.com
-
 password : secret // the password is literally 'secret'
 ```
 
 ```
 email : auth_user@example.com
-
 password : secret // the password is literally 'secret'
 ```
 
 ```
 email : admin@example.com
-
 password : secret // the password is literally 'secret'
 ```
 
