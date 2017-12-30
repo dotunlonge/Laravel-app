@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+
 use App\User;
+use App\Role;
+
 use App\Jobs\SendVerificationEmail;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -30,7 +33,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
     
     /**
      * Create a new controller instance.
@@ -58,7 +61,7 @@ class LoginController extends Controller
             ];
             event(new Registered($user = $data));
             dispatch(new SendVerificationEmail($user, $data)); 
-            return view('almost');
+            return view('auth.almost');
         }
     }
 

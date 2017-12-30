@@ -16,9 +16,14 @@
 // });
 
 Auth::routes();
-Route::get('/', 'HomeController@index')->name('home');
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get ( '/redirect/{service}', 'SocialAuthController@redirect' );
+
+Route::get('/', 'Home\HomeController@index')->name('home');
+Route::get ( '/dashboard', 'Home\HomeController@dashboard' )->name('dashboard');
+Route::get ( '/history', 'Home\HomeController@history' )->name('history');
+Route::post('/sms','Home\HomeController@sendSMS')->name('send');
+
+Route::get ( '/redirect/{service}', 'Auth\SocialAuthController@redirect' );
+Route::get ( '/auth/{service}/callback', 'Auth\SocialAuthController@callback' );
+
 Route::get('/verify/{token}', 'Auth\RegisterController@verify');
-Route::get ( '/auth/{service}/callback', 'SocialAuthController@callback' );
-Route::post('/sms','HomeController@sendSMS');
+

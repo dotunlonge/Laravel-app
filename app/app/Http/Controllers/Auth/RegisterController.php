@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
-
 use Illuminate\Auth\Events\Registered;
-use App\Jobs\SendVerificationEmail;
 
+use App\User;
+use App\Role;
+use App\Jobs\SendVerificationEmail;
 
 class RegisterController extends Controller
 {
@@ -33,7 +34,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -93,7 +94,7 @@ class RegisterController extends Controller
         $data = $this->create($request->all());
         event(new Registered($user = $data));
         dispatch(new SendVerificationEmail($user, $data->toArray()));
-        return view('verification');   
+        return view('auth.verification');   
     }
 
     /**

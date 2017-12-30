@@ -17,7 +17,7 @@
                 </div>
                 @endif
     
-                    <form class="form-horizontal" method="POST" action="/sms">
+                    <form class="form-horizontal" method="POST" action="{{ route('send') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group">
@@ -32,7 +32,7 @@
                             <label for="num" class="col-md-4 control-label">To</label>
 
                             <div class="col-md-6">
-                                <input id="num" type="text" class="form-control" name="num" placeholder = "E.g 08123456789" required>
+                                <input id="num" type="text" class="form-control" name="num" placeholder = "E.g +2348123456789" required>
                             </div>
                         </div>
 

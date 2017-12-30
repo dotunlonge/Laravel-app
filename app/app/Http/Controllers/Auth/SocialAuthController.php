@@ -1,12 +1,14 @@
 <?php
   
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
 use App\User;
+use App\Role;
 use Validator;
 use Auth;
 use Socialite;
 use Redirect;
-use App\Http\Controllers\Controller;
 // use Illuminate\Foundation\Auth\ThrottlesLogins;
 // use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Http\Request;
@@ -29,14 +31,11 @@ class SocialAuthController extends Controller {
     
 	public function callback($provider) {
 
-         $user = Socialite::driver($provider)->user();
-
+        $user = Socialite::driver($provider)->user();
         $authUser = $this->findOrCreateUser($user, $provider);
         Auth::login($authUser, true);
         return redirect($this->redirectTo);
 
-		// $user = Socialite::with ( $service )->user ();
-		// return view ( 'home' )->withDetails ( $user )->withService ( $service );
 	}
 
      /**
@@ -52,12 +51,19 @@ class SocialAuthController extends Controller {
         if ($authUser) {
             return $authUser;
         }
-        return User::create([
+        $user =  User::create([
             'name'     => $user->name,
             'email'    => $user->email,
             'provider' => $provider,
-            'provider_id' => $user->id
+            'provider_id' => $user->id,
+            'verified' => 1
         ]);
+        
+        $user
+        ->roles()
+        ->attach(Role::where('name', 'API User')->first());
+
+        return $user;
     }
 
 }
