@@ -21,5 +21,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get ( '/redirect/{service}', 'SocialAuthController@redirect' );
 Route::get('/verify/{token}', 'Auth\RegisterController@verify');
 Route::get ( '/auth/{service}/callback', 'SocialAuthController@callback' );
-
 Route::post('/sms','HomeController@sendSMS');

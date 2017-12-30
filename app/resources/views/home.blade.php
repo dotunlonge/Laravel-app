@@ -7,9 +7,17 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Dashboard</div>
 
+
+
                 <div class="panel-body">
-                <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('/sms/send') }}">
+
+                @if (\Session::has('smsResponse'))
+                <div class="alert {{ \Session::get('smsResponse')['success'] === true ? 'alert-success' : 'alert-danger' }}">
+                        <p>{!! \Session::get('smsResponse')['message'] !!}</p>
+                </div>
+                @endif
+    
+                    <form class="form-horizontal" method="POST" action="/sms">
                         {{ csrf_field() }}
 
                         <div class="form-group">
@@ -32,20 +40,9 @@
                             <label for="password" class="col-md-4 control-label">Message</label>
 
                             <div class="col-md-6">
-                                <textarea id="msg" class="form-control" name="msg" required>
+                                <textarea id="msg" class="form-control" name="msg" required > Content of message goes here. </textarea>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="isflash"> is Flash ?
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
