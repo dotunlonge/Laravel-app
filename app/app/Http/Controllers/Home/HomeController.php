@@ -3,23 +3,22 @@
 namespace App\Http\Controllers\Home;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\SMSController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Home\Traits\SMSTrait;
 
 class HomeController extends Controller
 {
+    use SMSTrait;
     /**
      * Create a new controller instance.
      *
      * @return void
      */
 
-     private $SMS; 
 
     public function __construct()
     {
         $this->middleware('auth');
-        $this->SMS = new SMSController();
     }
 
     /**
@@ -63,7 +62,7 @@ class HomeController extends Controller
     public function sendSMS(Request $request){
        
         $data = $request->all();
-        $response = $this->SMS->send($data);
+        $response = $this->send($data);
        
         $errors = [
             '-1' => 'Authentication Error','-2' => 'Access Denied',
