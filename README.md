@@ -1,6 +1,6 @@
 # LARAVEL BASED SMS WEB APPLICATION
 
-A simple web application for sending messages to mobile numbers, utilising guzzle to make api requests .
+A web application for sending messages to mobile numbers, utilising guzzle to make api requests .
 
 Allows for user login and signup with email confirmation.
 
